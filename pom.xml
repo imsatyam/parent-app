@@ -1,0 +1,100 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.satyam.app</groupId>
+	<artifactId>app-parent</artifactId>
+	<version>1.0.0.0</version>
+
+	<packaging>pom</packaging>
+	<name>app-parent</name>
+	<description>Parent pom for applications</description>
+
+	<properties>
+
+		<!-- Build source encoding -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- Maven plugin versions -->
+		<maven.jar.plugin>2.3.2</maven.jar.plugin>
+		<maven.source.plugin>2.1.2</maven.source.plugin>
+
+		<!-- jdk version -->
+		<jdk.version>1.8</jdk.version>
+
+		<!-- slf4j version -->
+		<slf4j.version>1.7.10</slf4j.version>
+
+		<!-- logback version -->
+		<logback.version>1.1.2</logback.version>
+
+		<!-- junit version -->
+		<junit.version>4.12</junit.version>
+
+		<!-- Maven deploy plugin -->
+		<maven.deploy.version>2.8.2</maven.deploy.version>
+
+		<!-- Site maven plugin -->
+		<site.maven.version>0.11</site.maven.version>
+
+		<!-- github server corresponds to entry in ~/.m2/settings.xml -->
+		<github.global.server>github</github.global.server>
+
+		<!-- Bintray repository details -->
+		<repo.name>libraries</repo.name>
+		<package.name>app-parent</package.name>
+
+	</properties>
+
+	<!-- Add repositories -->
+	<distributionManagement>
+		<repository>
+			<id>bintray-satyam-libraries</id>
+			<url>https://dl.bintray.com/satyam/${repo.name}/${package.name}</url>
+		</repository>
+	</distributionManagement>
+
+	<build>
+		<plugins>
+
+			<!-- Configure maven jar and maven source plugins -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven.jar.plugin}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven.source.plugin}</version>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<!-- Slf4j api -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+		<!-- logback implementation -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+
+		<!-- jUnit implementation -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
+
+	</dependencies>
+
+</project>
