@@ -16,8 +16,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- Maven plugin versions -->
+		<maven.install.plugin>2.5.2</maven.install.plugin>
+		<maven.deploy.plugin>2.8.2</maven.deploy.plugin>
 		<maven.jar.plugin>2.3.2</maven.jar.plugin>
 		<maven.source.plugin>2.1.2</maven.source.plugin>
+		<maven.compiler.plugin>3.5.1</maven.compiler.plugin>
+		<maven.war.plugin>2.6</maven.war.plugin>
 
 		<!-- jdk version -->
 		<jdk.version>1.8</jdk.version>
@@ -43,7 +47,12 @@
 		<!-- Bintray repository details -->
 		<repo.name>libraries</repo.name>
 		<package.name>app-parent</package.name>
-
+		
+		<!-- War file name -->
+		<war.name></war.name>
+		
+		<!-- Fail war generation on missing web.xml -->
+		<fail.war.gen.on.missing.web.xml>true</fail.war.gen.on.missing.web.xml>
 	</properties>
 
 	<!-- Add repositories -->
@@ -55,9 +64,30 @@
 	</distributionManagement>
 
 	<build>
+		
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/filtered-resources</directory>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+	
 		<plugins>
 
-			<!-- Configure maven jar and maven source plugins -->
+			<!-- Configure maven plugins -->
+			<plugin>
+			  	<groupId>org.apache.maven.plugins</groupId>
+			  	<artifactId>maven-install-plugin</artifactId>
+			  	<version>${maven.install.plugin}</version>
+			</plugin>
+			<plugin>
+			  	<groupId>org.apache.maven.plugins</groupId>
+			  	<artifactId>maven-deploy-plugin</artifactId>
+			  	<version>${maven.deploy.plugin}</version>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -67,6 +97,39 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<version>${maven.source.plugin}</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.plugin}</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${maven.war.plugin}</version>
+				<configuration>
+					<webResources>
+	                    <resource>
+	                        <filtering>true</filtering>
+	                        <targetPath>WEB-INF</targetPath>
+	                        <directory>src/main/resources</directory>
+	                        <includes>
+	                            <include>web.xml</include>
+	                        </includes>
+	                    </resource>
+	                </webResources>
+	                <archive>
+			            <manifest>
+			                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+			                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+			            </manifest>
+			        </archive>
+					<warSourceDirectory>WebContent</warSourceDirectory>
+					<failOnMissingWebXml>${fail.war.gen.on.missing.web.xml}</failOnMissingWebXml>
+					<warName>${war.name}</warName>
+				</configuration>
 			</plugin>
 
 		</plugins>
